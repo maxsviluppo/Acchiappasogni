@@ -8,6 +8,8 @@ export interface Fiaba {
   illustrationType: 'star' | 'cloud' | 'flower' | 'owl' | 'dolphin' | 'forest';
   coverImage?: string;
   slideImage?: string;
+  accentColor?: string;       // colore dominante della slide (hex/hsl)
+  accentColorLight?: string;  // versione chiarissima per lo sfondo pagina
   inlineImages?: {
     afterParagraph: number;
     src: string;
@@ -25,6 +27,8 @@ export const FIABE_PREDEFINITE: Fiaba[] = [
     illustrationType: 'star',
     coverImage: '/stella/stella copertina.png',
     slideImage: '/stella/stellaslide2.png',
+    accentColor: '#7c6fcd',        // viola/indaco dalle stelle della slide
+    accentColorLight: '#f5f3ff',   // lavanda chiarissima
     inlineImages: [
       { afterParagraph: 0, src: '/stella/stella 1.png', alt: 'Celeste guarda timida dal cielo' },
       { afterParagraph: 4, src: '/stella/stella 2.png', alt: 'Celeste brilla e porta la sua scia luminosa' },
@@ -55,6 +59,8 @@ Da quella notte, Celeste non ebbe più paura. Sapeva che il suo compito era acce
     duration: '3 min',
     description: 'Nuvola Nuvolina adora poltrire nel cielo azzurro, finché non scopre il potere di un soffio fresco.',
     illustrationType: 'cloud',
+    accentColor: '#5ba4cf',        // azzurro cielo
+    accentColorLight: '#f0f7ff',   // azzurro chiarissimo
     text: `Nuvolina era la nuvola più soffice e pigra di tutto il cielo. Mentre le sue sorelle correvano felici spinte dal vento frizzante, portando pioggerellina fresca ai fiori o disegnando forme buffe per far ridere i bambini, Nuvolina preferiva reclinare la testa sulla cima di una montagna alta e fare lunghi sonnellini.
 
 'Nuvolina, vieni a giocare!' la chiamavano le altre nuvole. Ma lei si limitava a sbadigliare, allungandosi pigramente come un gatto di ovatta.
@@ -80,6 +86,8 @@ E ancora oggi, quando sentite una brezza fresca accarezzarvi il viso nelle calde
     duration: '5 min',
     description: 'Nel cuore della foresta segreta, i fiori intonano una melodia d\'oro che culla il mondo intero.',
     illustrationType: 'flower',
+    accentColor: '#7daf6b',        // verde giardino
+    accentColorLight: '#f2faf0',   // verde menta chiarissimo
     text: `Nel cuore di una foresta antica e segreta, nascosto dietro una cascata d'acqua d'argento, esisteva un giardino magico in cui i fiori non si limitavano a profumare, ma sapevano cantare. 
 
 Ogni fiore aveva la sua voce speciale. Le rose cantavano con un tono vellutato e regale, le violette sussurravano note dolci e timide, e i grandi girasoli accompagnavano il coro con un ritmo profondo e caldo come la terra.
@@ -105,6 +113,8 @@ La sinfonia raggiunse il mondo intero, e quella notte tutti i bambini fecero i s
     duration: '5 min',
     description: 'Il saggio gufo Barnaba vola attraverso il cielo stellato per raccogliere i sogni d\'oro perduti.',
     illustrationType: 'owl',
+    accentColor: '#c9a84c',        // oro/ambra del gufo
+    accentColorLight: '#fffbf0',   // crema dorata chiarissima
     text: `Il signor Barnaba era un gufo molto saggio e distinto, con due grandi occhi dorati che brillavano come lanterne e piume soffici color cioccolato. Barnaba non era un gufo comune: era il Guardiano dei Sogni Perduti.
 
 Ogni notte, quando tutti andavano a dormire, Barnaba indossava i suoi piccoli occhiali tondi, spiegava le ali e decollava silenzioso dal ramo del suo vecchio albero di quercia. Il suo compito era volare tra i tetti delle case e catturare con la sua rete da pesca fatta d'aria e polvere di stelle i pensieri spaventosi o i brutti sogni dei bambini, sostituendoli con sogni fatti d'oro e fantasia.
@@ -132,6 +142,8 @@ Barnaba lo ripose delicatamente nella sua tana calda, rimboccandogli le coperte 
     duration: '4 min',
     description: 'Nelle profondità dell\'oceano d\'argento, il piccolo delfino guarisce le onde del mare con una carezza.',
     illustrationType: 'dolphin',
+    accentColor: '#4a9bbe',        // azzurro oceano
+    accentColorLight: '#f0faff',   // celeste chiarissimo
     text: `Nelle acque profonde e tranquille dell'oceano d'argento, dove la notte specchiava tutte le sue stelle, viveva un piccolo delfino di nome Kai. Kai aveva una pelle fatata che brillava di sfumature madreperla sotto la luce lunare.
 
 A differenza degli altri delfini che amavano fare salti altissimi durante il giorno sotto il sole caldo, Kai preferiva nuotare di notte, muovendosi in modo sinuoso e silenzioso tra le onde placide del mare.

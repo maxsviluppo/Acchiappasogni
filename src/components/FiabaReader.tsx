@@ -17,6 +17,7 @@ export const FiabaReader: React.FC<FiabaReaderProps> = ({ fiaba }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [vibratingImg, setVibratingImg] = useState<number | null>(null);
 
   const audioContextRef = useRef<AudioContext | null>(null);
   const currentSourceRef = useRef<AudioBufferSourceNode | null>(null);
@@ -108,21 +109,29 @@ export const FiabaReader: React.FC<FiabaReaderProps> = ({ fiaba }) => {
 
   const paragraphs = fiaba.text.split('\n\n').filter(p => p.trim() !== '');
 
+  const bgLight = fiaba.accentColorLight || '#f8f9ff';
+
   return (
-    <div className={`min-h-screen font-sans flex flex-col antialiased transition-colors duration-500 max-md:[&::-webkit-scrollbar]:hidden max-md:[-ms-overflow-style:none] max-md:[scrollbar-width:none] ${isDarkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
+    <div
+      className={`min-h-screen font-sans flex flex-col antialiased transition-colors duration-500 max-md:[&::-webkit-scrollbar]:hidden max-md:[-ms-overflow-style:none] max-md:[scrollbar-width:none] ${isDarkMode ? 'bg-slate-900 text-slate-100' : 'text-slate-900'}`}
+      style={!isDarkMode ? { backgroundColor: bgLight } : undefined}
+    >
       
-      {/* Top Slide Header */}
-      <section className="relative w-full overflow-hidden min-h-[45vh] flex flex-col bg-slate-950">
+      {/* Top Slide Header — tall cinematic */}
+      <section className="relative w-full overflow-hidden min-h-[70vh] flex flex-col bg-slate-950">
         {(fiaba.slideImage || fiaba.coverImage) && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
             <Image 
               src={fiaba.slideImage || fiaba.coverImage!} 
               alt="Dettaglio copertina" 
               fill 
-              className="object-cover object-top opacity-80" 
+              className="object-cover object-top opacity-90" 
               priority
             />
-            <div className={`absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/60 transition-colors duration-500 ${isDarkMode ? 'to-slate-900' : 'to-slate-50'}`} />
+            <div
+              className={`absolute inset-0 bg-gradient-to-b from-black/10 via-slate-900/50 transition-colors duration-500 ${isDarkMode ? 'to-slate-900' : 'to-transparent'}`}
+              style={!isDarkMode ? { background: `linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.35) 55%, ${bgLight} 100%)` } : undefined}
+            />
           </div>
         )}
 
@@ -170,7 +179,7 @@ export const FiabaReader: React.FC<FiabaReaderProps> = ({ fiaba }) => {
       </section>
 
       {/* Main Content Area */}
-      <main className={`flex-grow w-full pb-32 transition-colors duration-500 ${isDarkMode ? 'bg-slate-900' : 'bg-slate-50'}`}>
+      <main className={`flex-grow w-full pb-32 transition-colors duration-500 ${isDarkMode ? 'bg-slate-900' : ''}`}>
         <div className="max-w-4xl mx-auto px-6 relative">
           
           {/* Foto in Rilievo */}
@@ -190,6 +199,21 @@ export const FiabaReader: React.FC<FiabaReaderProps> = ({ fiaba }) => {
 
           {/* Text Content */}
           <article className="mt-16 sm:mt-24 max-w-2xl mx-auto">
+
+            {/* Keyframe vibration */}
+            <style>{`
+              @keyframes wiggle {
+                0%   { transform: rotate(0deg) scale(1); }
+                15%  { transform: rotate(-2deg) scale(1.03); }
+                30%  { transform: rotate(2deg) scale(1.03); }
+                45%  { transform: rotate(-2deg) scale(1.02); }
+                60%  { transform: rotate(2deg) scale(1.02); }
+                75%  { transform: rotate(-1deg) scale(1.01); }
+                90%  { transform: rotate(1deg) scale(1.01); }
+                100% { transform: rotate(0deg) scale(1); }
+              }
+              .wiggle-anim { animation: wiggle 0.6s ease; }
+            `}</style>
             
             <div className={`space-y-8 font-light text-lg leading-relaxed transition-colors duration-500 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
               {paragraphs.map((paragraph, index) => {
@@ -197,12 +221,18 @@ export const FiabaReader: React.FC<FiabaReaderProps> = ({ fiaba }) => {
                 
                 return (
                   <React.Fragment key={index}>
-                    <p className={index === 0 ? `text-xl sm:text-2xl font-medium leading-snug ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}` : ""}>
+                    <p>
                       {paragraph}
                     </p>
                     
                     {inlineImage && (
-                      <div className={`relative w-full max-w-md mx-auto aspect-[9/16] my-10 rounded-[1.5rem] overflow-hidden shadow-xl border-4 transform transition-transform hover:scale-[1.01] ${isDarkMode ? 'border-slate-800' : 'border-white'}`}>
+                      <div
+                        className={`relative w-full max-w-md mx-auto aspect-[9/16] my-10 rounded-[1.5rem] overflow-hidden shadow-xl border-4 cursor-pointer select-none ${isDarkMode ? 'border-slate-800' : 'border-white'} ${vibratingImg === index ? 'wiggle-anim' : ''}`}
+                        onClick={() => {
+                          setVibratingImg(index);
+                          setTimeout(() => setVibratingImg(null), 650);
+                        }}
+                      >
                         <Image 
                           src={inlineImage.src}
                           alt={inlineImage.alt}
