@@ -284,54 +284,42 @@ export const StoryCard: React.FC<StoryCardProps> = ({
         renderCoverIllustration()
       )}
 
-      {/* 2. COVER TITLE & GRADIENT OVERLAY (Always legible metadata at the bottom) */}
-      <div className="absolute inset-x-0 bottom-0 top-[40%] bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent flex flex-col justify-end p-6 select-text">
+      {/* 2. COVER TITLE & GRADIENT OVERLAY */}
+      <div className="absolute inset-x-0 bottom-0 top-[35%] bg-gradient-to-t from-black/90 via-black/60 to-transparent flex flex-col justify-end p-5 select-text">
         
-        {/* Glow point behind state */}
+        {/* Glow point behind active state */}
         {isActive && (
           <div className="absolute bottom-0 right-0 w-32 h-32 bg-pink-500/10 rounded-full filter blur-xl animate-pulse pointer-events-none" />
         )}
 
-        {/* Categories, Badges & Time tag */}
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-[#a78bfa] bg-[#a78bfa]/15 border border-[#a78bfa]/20 px-2 py-0.5 rounded-full">
-            {story.category}
-          </span>
-          <span className="flex items-center gap-1 text-[11px] text-slate-300 font-light bg-slate-950/50 px-2 py-0.5 rounded-full border border-white/5">
-            <Clock className="w-3 h-3 text-pink-400" /> {story.duration}
-          </span>
+        {/* Duration — small and unobtrusive top of overlay */}
+        <div className="flex items-center gap-1 mb-2">
+          <Clock className="w-3 h-3 text-white/40" />
+          <span className="text-[10px] text-white/40 font-light tracking-widest uppercase">{story.duration}</span>
+          {isActive && <Sparkles className="w-3 h-3 text-yellow-300 animate-spin ml-1" />}
         </div>
 
-        {/* Fairy tale title */}
-        <h3 className="serif-font text-xl sm:text-2xl font-light text-slate-100 leading-snug tracking-tight mb-2 truncate">
+        {/* Title */}
+        <h3 className="serif-font text-xl sm:text-2xl font-light text-white leading-snug tracking-tight mb-1.5">
           {story.title}
         </h3>
 
-        {/* Short cozy teaser summary */}
-        <p className="text-xs text-slate-400 font-light leading-relaxed mb-4 line-clamp-2 md:line-clamp-3 select-none">
+        {/* Description */}
+        <p className="text-xs text-white/50 font-light leading-relaxed line-clamp-2 mb-4">
           {story.description}
         </p>
 
-        {/* Action Status button bar inside list cover */}
-        <div className="flex items-center justify-between pt-3 border-t border-white/5 select-none">
-          <span className="text-xs font-semibold text-pink-400 flex items-center gap-1.5 group-hover:text-pink-300">
-            {isActive ? (
-              <>
-                <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" /> In Lettura
-              </>
-            ) : (
-              <>
-                <BookOpen className="w-3.5 h-3.5 text-indigo-400" /> Sfoglia Copertina
-              </>
-            )}
+        {/* Bottom row: category label left, arrow right */}
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] text-white/35 uppercase tracking-widest font-medium">
+            {story.category}
           </span>
-
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
+          <div className={`w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 ${
             isActive 
-              ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-[0_0_15px_rgba(244,114,182,0.4)] scale-110' 
-              : 'bg-slate-900 border border-white/10 text-slate-300 group-hover:bg-indigo-600 group-hover:text-white group-hover:border-indigo-500'
+              ? 'bg-white/20 text-white scale-110 border border-white/30' 
+              : 'bg-white/10 text-white/60 border border-white/10 group-hover:bg-white/20 group-hover:text-white'
           }`}>
-            <Play className="w-4 h-4 fill-current ml-0.5" />
+            <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
           </div>
         </div>
 

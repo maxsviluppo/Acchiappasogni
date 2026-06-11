@@ -9,6 +9,15 @@
   .serif-font {
     font-family: 'Crimson Pro', serif;
   }
+  .playfair-title {
+    font-family: 'Playfair Display', serif;
+  }
+  /* Impedisce lo zoom automatico su iOS quando si tocca un campo input */
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 @layer utilities {

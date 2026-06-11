@@ -15,13 +15,15 @@ export const CelestialBackground: React.FC<CelestialBackgroundProps> = ({ catego
   const stars = useMemo(() => {
     if (!mounted) return [];
     const starArray = [];
-    const colors = ['bg-white', 'bg-blue-100', 'bg-indigo-100', 'bg-yellow-100', 'bg-pink-100'];
-    for (let i = 0; i < 45; i++) {
+    const colors = ['bg-white', 'bg-blue-100', 'bg-indigo-100', 'bg-yellow-100', 'bg-pink-100', 'bg-white', 'bg-white'];
+    for (let i = 0; i < 150; i++) {
       const top = Math.random() * 100;
       const left = Math.random() * 100;
-      const size = Math.random() * 2 + 1; // 1px to 3px
-      const delay = Math.random() * 5; // 0s to 5s delay
-      const duration = Math.random() * 3 + 2; // 2s to 5s duration
+      // create a mix of many tiny distant stars and a few larger ones
+      const isLarge = Math.random() > 0.95;
+      const size = isLarge ? (Math.random() * 2 + 2) : (Math.random() * 1.5 + 0.5); 
+      const delay = Math.random() * 8; // 0s to 8s delay
+      const duration = Math.random() * 4 + 3; // 3s to 7s duration
       const color = colors[Math.floor(Math.random() * colors.length)];
       
       starArray.push({

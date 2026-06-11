@@ -76,3 +76,16 @@ export const playClick = () => {
     console.warn('AudioContext click failed:', err);
   }
 };
+
+/**
+ * Plays the dlin.wav magic sound for UI interactions.
+ */
+export const playDlin = () => {
+  try {
+    const audio = new Audio('/dlin.wav');
+    audio.volume = 0.5;
+    audio.play().catch(() => {});
+  } catch (err) {
+    console.warn('Audio play failed:', err);
+  }
+};

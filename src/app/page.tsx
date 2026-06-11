@@ -9,7 +9,7 @@ import { DreamAnimator } from '../components/DreamAnimator';
 import { StoryCard } from '../components/StoryCard';
 import { CelestialBackground } from '../components/CelestialBackground';
 import { AnimatedTitle } from '../components/AnimatedTitle';
-import { playClick } from '../utils/audioEffects';
+import { playDlin } from '../utils/audioEffects';
 import {
   Sparkles, 
   Settings, 
@@ -25,7 +25,9 @@ import {
   Bell,
   Sliders,
   VolumeX,
-  Moon
+  Moon,
+  Sun,
+  Cloud
 } from 'lucide-react';
 
 const formatProgressTime = (timeInSeconds: number) => {
@@ -44,6 +46,7 @@ export default function App() {
   const [error, setError] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [hasCustomKey, setHasCustomKey] = useState<boolean>(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
 
   // Global document-level click audio listener to play gentle clicking sounds
   useEffect(() => {
@@ -54,7 +57,7 @@ export default function App() {
       // Determine if clicked element is interactive (button, link, custom click, checkbox, etc.)
       const isInteractive = target.closest('button, a, [role="button"], .cursor-pointer, input[type="checkbox"], input[type="radio"], svg');
       if (isInteractive) {
-        playClick();
+        playDlin();
       }
     };
 
@@ -375,7 +378,7 @@ export default function App() {
   // Seleziona una fiaba predefinita e naviga
   const handleSelectStory = (story: Fiaba) => {
     handleStop();
-    playClick();
+    playDlin();
     router.push(`/fiaba/${story.id}`);
   };
 
@@ -479,7 +482,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-[#ec4899]/30 overflow-x-hidden relative">
+    <div className={`min-h-screen font-sans selection:bg-[#ec4899]/30 overflow-x-hidden relative transition-colors duration-500 ${isDarkMode ? 'bg-slate-950 text-slate-100' : 'bg-indigo-50 text-slate-900'}`}>
       <style>{`
         .no-scrollbar::-webkit-scrollbar {
           display: none;
@@ -500,11 +503,11 @@ export default function App() {
         style={{ 
           WebkitMaskImage: 'linear-gradient(to bottom, black 65%, transparent 100%)', 
           maskImage: 'linear-gradient(to bottom, black 65%, transparent 100%)',
-          transform: 'translateY(-80px)'
+          transform: 'translateY(-50px)'
         }}
       >
         <Image 
-          src="/stella/stellaslide2.png"
+          src="/copertina.png"
           alt="Sfondo Magico"
           fill
           className="object-cover object-top mix-blend-luminosity md:mix-blend-normal opacity-60"
@@ -592,9 +595,9 @@ export default function App() {
                     href="https://aistudio.google.com/app/apikey" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-[10px] sm:text-xs text-indigo-400 hover:text-indigo-300 underline underline-offset-2 opacity-80 hover:opacity-100 transition-opacity"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-500/15 hover:bg-indigo-500/25 border border-indigo-500/30 text-indigo-300 hover:text-indigo-200 text-[10px] font-semibold uppercase tracking-wide transition-all active:scale-95"
                   >
-                    Dove trovo la chiave?
+                    🔑 Ottieni chiave
                   </a>
                 </div>
                 <p className="text-xs text-slate-200 mb-4 font-normal leading-relaxed">
@@ -656,31 +659,40 @@ export default function App() {
       {/* SECTION 1: LA COPERTINA (Splash Cover Visual Landing) */}
       <section className="min-h-screen flex flex-col justify-between items-center px-4 py-8 md:py-12 relative z-10 select-none">
         
-        {/* Settings button on Cover */}
-        <header className="w-full max-w-6xl flex justify-end items-center px-4">
+        {/* Settings + Dark Mode buttons on Cover */}
+        <header className="w-full max-w-6xl flex justify-end items-center gap-2 px-4">
+          {/* Dark / Light toggle */}
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="group p-3.5 bg-slate-950/40 backdrop-blur-sm hover:bg-slate-900/50 rounded-full transition-all duration-300 active:scale-95 flex items-center justify-center relative overflow-hidden"
+            title={isDarkMode ? 'Modalità Chiara' : 'Modalità Scura'}
+          >
+            <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors duration-300" />
+            {isDarkMode
+              ? <Sun className="w-6 h-6 text-amber-300 fill-amber-300/20 group-hover:fill-amber-300/60 transition-colors duration-300 drop-shadow-[0_0_5px_rgba(251,191,36,0.5)] group-hover:scale-110" />
+              : <Moon className="w-6 h-6 text-indigo-200 fill-indigo-200/10 group-hover:fill-indigo-200/40 transition-colors duration-300 drop-shadow-[0_0_5px_rgba(165,180,252,0.4)] group-hover:scale-110" />
+            }
+          </button>
+
+          {/* Settings (Cloud) button */}
           <button 
             onClick={() => setShowSettings(true)}
             className="group p-3.5 bg-slate-950/40 backdrop-blur-sm hover:bg-slate-900/50 rounded-full transition-all duration-300 active:scale-95 flex items-center justify-center relative overflow-hidden"
             title="Pannello di Controllo"
             id="pulsante-mezza-luna"
           >
-            {/* Ambient inner neon glow */}
             <div className="absolute inset-0 bg-white/5 group-hover:bg-white/10 transition-colors duration-300" />
-            
-            {/* Glowing Moon Icon */}
-            <Moon className="w-6 h-6 text-yellow-200 fill-yellow-200/20 group-hover:fill-yellow-200/60 transition-colors duration-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.4)] group-hover:scale-110 group-hover:rotate-12" />
+            <Cloud className="w-6 h-6 text-sky-200 fill-sky-200/20 group-hover:fill-sky-200/60 transition-colors duration-300 drop-shadow-[0_0_5px_rgba(186,230,253,0.5)] group-hover:scale-110" />
           </button>
         </header>
 
         {/* Central Cartoon Illustration Hero */}
-        <div className="text-center my-auto flex flex-col items-center">
-          {/* Beautiful cartoon dreamcatcher vector artwork */}
-          <DreamAnimator isPlaying={isPlaying} />
+        <div className="text-center my-auto flex flex-col items-center translate-y-[180px]">
 
           {/* Title and Beautiful branding */}
           <AnimatedTitle />
           <p className="text-slate-200 font-normal text-base md:text-xl max-w-lg mx-auto mt-4 px-4 leading-relaxed select-text">
-            La dolce voce narrante per fiabe e sogni dorati. Culliamo la fantasia dei più piccini nel buio della cameretta.
+            La dolce voce narrante per fiabe e sogni dorati. Culliamo la fantasia dei più piccini accompagnandoli dolcemente nel mondo dei sogni.
           </p>
         </div>
 
@@ -689,7 +701,7 @@ export default function App() {
       </section>
 
       {/* SECTION 2: THE DASHBOARD WORKSPACE (Fairy tales Grid) */}
-      <div id="biblioteca-fiabe" className="relative z-10 w-full max-w-6xl mx-auto px-4 py-16">
+      <div id="biblioteca-fiabe" className="relative z-10 w-full max-w-6xl mx-auto px-4 pt-4 pb-16">
         
         {/* SECTION FOR BOOKMARKS / SEGNALIBRI */}
         {FIABE_PREDEFINITE.filter((s) => favorites.includes(s.id)).length > 0 && (
@@ -724,11 +736,6 @@ export default function App() {
           </div>
         )}
 
-        <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="serif-font text-5xl md:text-7xl font-extralight text-transparent bg-clip-text bg-gradient-to-b from-rose-200 to-indigo-300 drop-shadow-md tracking-wide mt-8">
-            Le Fiabe
-          </h2>
-        </div>
 
         {/* Pure Premium 3-column / 2-column Grid of Cartoon Covers */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center items-stretch animate-in fade-in slide-in-from-bottom-5 duration-700">

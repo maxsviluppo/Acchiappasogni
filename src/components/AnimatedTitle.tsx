@@ -45,8 +45,15 @@ export const AnimatedTitle: React.FC = () => {
     }, 15);
   };
 
-  // No automatic random animation
+  // Random letter popping animation
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const randomIdx = Math.floor(Math.random() * word.length);
+      triggerLetterAnim(randomIdx);
+    }, 4000); // Trigger a random pop every 4 seconds
 
+    return () => clearInterval(interval);
+  }, []);
   // For touch screens: detect touch move over letters to "pop" them under the finger
   const handleTouchMove = (e: React.TouchEvent) => {
     if (e.touches && e.touches.length > 0) {
@@ -70,7 +77,7 @@ export const AnimatedTitle: React.FC = () => {
 
   return (
     <h1 
-      className="serif-font text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-slate-100 via-rose-100 to-indigo-300 mt-6 leading-normal pb-4 pt-1 drop-shadow-sm select-none flex items-center justify-center gap-0 sm:gap-0.5"
+      className="playfair-title text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-b from-white via-rose-100 to-indigo-300 mt-6 leading-none pb-4 pt-1 drop-shadow-sm select-none flex items-center justify-center gap-0 sm:gap-0.5"
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
