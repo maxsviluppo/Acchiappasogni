@@ -460,23 +460,12 @@ export default function App() {
 
 
   const stopAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-    }
-    setIsPlaying(false);
+    handleStop();
   };
 
   const togglePlay = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play()
-          .then(() => setIsPlaying(true))
-          .catch(e => console.error("Error playing audio", e));
-      }
+    if (isPlaying) {
+      handleStop();
     }
   };
 
