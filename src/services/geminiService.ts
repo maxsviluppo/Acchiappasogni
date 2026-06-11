@@ -29,7 +29,7 @@ export const generateStoryAudio = async (
 
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-tts-preview",
+      model: "gemini-2.5-flash-preview-tts",
       contents: [{ parts: [{ text: fullPrompt }] }],
       config: {
         responseModalities: [Modality.AUDIO],
@@ -58,7 +58,7 @@ export const generateStoryAudio = async (
     return null;
   } catch (error: any) {
     console.error("Gemini TTS Error:", error);
-    if (error?.message?.includes("Requested entity was not found")) {
+    if (error?.message?.includes("Requested entity was not found") || error?.message?.includes("not found")) {
       throw new Error("API_KEY_ERROR");
     }
     throw error;
