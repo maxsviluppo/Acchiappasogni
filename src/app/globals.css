@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  .serif-font {
+    font-family: 'Crimson Pro', serif;
+  }
+}
+
+@layer utilities {
+  /* Nascondi la barra di scorrimento verticale su mobile */
+  @media (max-width: 768px) {
+    *::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+}

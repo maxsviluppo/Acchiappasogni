@@ -1,0 +1,10 @@
+{
+  "name": "Acchiappasogni",
+  "description": "Un'app magica per ascoltare romantiche e dolci fiabe della buonanotte lette con una voce soave di intelligenza artificiale. Include favole predefinite e registrazione vocale.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
